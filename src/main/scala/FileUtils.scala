@@ -147,6 +147,18 @@ object FileUtils {
             Some(getListOfFilesInDirectory(dirName))
         }
     }
+
+    /**
+     * Create the given directory name. Only creates one directory; use
+     * `createDirs` to create multiple subdirectory levels at one time.
+     */
+    def createDir(canonDirName: String): Boolean = (new File(canonDirName)).mkdir
+    
+    /**
+     * Create the given directory name, including all directories in between
+     * that need to be created (like `mkdir foo/bar/baz`).
+     */
+    def createDirs(canonDirName: String): Boolean = (new File(canonDirName)).mkdirs    
     
 }
 
