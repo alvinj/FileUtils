@@ -12,12 +12,13 @@ import java.io.File
  */
 class WordCountTests extends AnyFunSuite {
 
-    val currentDirectory   = System.getProperty("user.dir")
-    val testFilesDir       = s"${currentDirectory}/src/test/resources"
-    val testFile1          = s"${testFilesDir}/test-file-1.txt"
+    val currentDirectory     = System.getProperty("user.dir")
+    val testFilesDir         = s"${currentDirectory}/src/test/resources"
+    val testFile1            = s"${testFilesDir}/test-file-1.txt"
     val testFileWithCommentsAndBlanks = s"${testFilesDir}/file-with-comments-and-blanks.txt"
-    val testPropertiesFile = s"${testFilesDir}/test-properties.props"
-    val nonExistentFile    = "/foo/bar"
+    val testPropertiesFile   = s"${testFilesDir}/test-properties.props"
+    val stocksPropertiesFile = s"${testFilesDir}/stocks.props"
+    val nonExistentFile      = "/foo/bar"
 
     test("just showing how i can print debug output to the console/stdout") {
         info(s"DEBUG: currentDirectory = $currentDirectory")   // DEBUG OUTPUT
@@ -75,6 +76,18 @@ class WordCountTests extends AnyFunSuite {
         }
     }
 
+    test("try properties file with arrays of data") {
+        val maybeProps: Try[Properties] = readPropertiesFile(stocksPropertiesFile)
+        maybeProps match {
+            case Success(props) => {
+                val nasdaqStocks = props.getProperty("nasdaq").split(",").toSeq
+                assert(nasdaqStocks == Seq("AAPL", "GOOG", "MSFT"))
+                val nyseStocks = props.getProperty("nyse").split(",").toSeq
+                assert(nyseStocks == Seq("A", "BAC", "BRK.B"))
+            }
+            case Failure(t) => fail("yikes, you should not see this")
+        }
+    }
     test("try listing test files") {
         val maybeListOfFiles: Try[Seq[String]] = getListOfFilesInDirectory(testFilesDir)
         maybeListOfFiles match {
