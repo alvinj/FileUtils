@@ -1,10 +1,10 @@
 name := "FileUtils"
-version := "0.1"
-scalaVersion := "2.12.8"
+version := "0.2"
+scalaVersion := "2.13.13"
 
-//libraryDependencies ++= Seq(
-//    "org.scalatest" %% "scalatest" % "3.0.5" % "test"
-//)
+libraryDependencies ++= Seq(
+   "org.scalatest" %% "scalatest" % "3.2.17" % "test"
+)
 
 // see https://tpolecat.github.io/2017/04/25/scalac-flags.html for scalacOptions descriptions
 scalacOptions ++= Seq(
